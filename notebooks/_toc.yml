@@ -1,4 +1,13 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
 format: jb-book
 root: intro
 chapters:
-- file:  Notebook_Template
+- file: ocean_stats
+- file: surface
+- file: moc
+- file: pht
+- file: ts_biases
+- file: transports
+- file: equatorial
