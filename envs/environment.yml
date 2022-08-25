@@ -1,4 +1,4 @@
-name: analysis
+name: mom6_solutions
 channels:
     - conda-forge
     - nodefaults
@@ -11,3 +11,8 @@ dependencies:
     - jupyter
     - jupyterlab
     - netCDF4
+    - ncar-jobqueue
+    - nc-time-axis
+    - dask-labextension
+    
+    
