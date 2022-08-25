@@ -14,5 +14,5 @@ dependencies:
     - ncar-jobqueue
     - nc-time-axis
     - dask-labextension
-    
-    
+    - pip:
+      - git+https://github.com/NCAR/mom6-tools.git
