@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Welcome to the ocean diagnostics &#8212; Ocean model diagnostics</title>
+    <title>Welcome to the OMWG diagnostics &#8212; Ocean model diagnostics</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -335,9 +335,26 @@ title="Print to PDF"
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#contributing">
-   Contributing
+  <a class="reference internal nav-link" href="#creating-diagnostics-for-a-single-simulation">
+   Creating diagnostics for a single simulation
   </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#creating-diagnostics-for-multiple-simulations">
+   Creating diagnostics for multiple simulations
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#building-a-jupyter-book">
+   Building a Jupyter Book
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#contributing">
+     Contributing
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -348,7 +365,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Welcome to the ocean diagnostics</h1>
+                <h1>Welcome to the OMWG diagnostics</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -359,9 +376,26 @@ title="Print to PDF"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#contributing">
-   Contributing
+  <a class="reference internal nav-link" href="#creating-diagnostics-for-a-single-simulation">
+   Creating diagnostics for a single simulation
   </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#creating-diagnostics-for-multiple-simulations">
+   Creating diagnostics for multiple simulations
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#building-a-jupyter-book">
+   Building a Jupyter Book
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#contributing">
+     Contributing
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -373,11 +407,55 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="welcome-to-the-ocean-diagnostics">
-<h1>Welcome to the ocean diagnostics<a class="headerlink" href="#welcome-to-the-ocean-diagnostics" title="Permalink to this headline">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="welcome-to-the-omwg-diagnostics">
+<h1>Welcome to the OMWG diagnostics<a class="headerlink" href="#welcome-to-the-omwg-diagnostics" title="Permalink to this headline">#</a></h1>
 <p>Collection of notebooks and scripts used to diagnose MOM6 solutions conducted with CESM.</p>
+<section id="creating-diagnostics-for-a-single-simulation">
+<h2>Creating diagnostics for a single simulation<a class="headerlink" href="#creating-diagnostics-for-a-single-simulation" title="Permalink to this headline">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">create_cesm_diagnostic</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">h</span>
+
+<span class="n">usage</span><span class="p">:</span> <span class="n">create_cesm_diagnostic</span><span class="o">.</span><span class="n">py</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">cimeroot</span> <span class="n">CIMEROOT</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">sd</span> <span class="n">START_DATE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">ed</span> <span class="n">END_DATE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">p</span> <span class="n">PROJ_CODE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">ce</span> <span class="n">CONDA_ENV</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">cl</span> <span class="n">CLUSTER</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">debug</span><span class="p">]</span>
+                                 <span class="n">caseroot</span> <span class="n">shortname</span>
+
+<span class="n">Create</span> <span class="n">a</span> <span class="n">new</span> <span class="n">case</span> <span class="n">to</span> <span class="n">be</span> <span class="n">processed</span> <span class="n">using</span> <span class="n">mom6_tools</span><span class="o">.</span>
+
+<span class="n">positional</span> <span class="n">arguments</span><span class="p">:</span>
+  <span class="n">caseroot</span>              <span class="n">Path</span> <span class="n">to</span> <span class="n">the</span> <span class="n">CASEROOT</span>
+  <span class="n">shortname</span>             <span class="n">A</span> <span class="n">short</span> <span class="n">name</span> <span class="n">descring</span> <span class="n">the</span> <span class="n">experiment</span>
+
+<span class="n">optional</span> <span class="n">arguments</span><span class="p">:</span>
+  <span class="o">-</span><span class="n">h</span><span class="p">,</span> <span class="o">--</span><span class="n">help</span>            <span class="n">show</span> <span class="n">this</span> <span class="n">help</span> <span class="n">message</span> <span class="ow">and</span> <span class="n">exit</span>
+  <span class="o">--</span><span class="n">cimeroot</span> <span class="n">CIMEROOT</span>   <span class="n">Path</span> <span class="n">to</span> <span class="n">the</span> <span class="n">CIME</span> <span class="n">root</span> <span class="n">used</span> <span class="ow">in</span> <span class="n">this</span> <span class="n">experiment</span><span class="o">.</span> <span class="n">Default</span> <span class="ow">is</span> <span class="o">/</span><span class="n">glade</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">gmarques</span><span class="o">/</span><span class="n">cesm</span><span class="o">.</span><span class="n">sandboxes</span><span class="o">/</span><span class="n">cesm2_3_beta08</span><span class="o">/</span><span class="n">cime</span><span class="o">/</span>
+  <span class="o">-</span><span class="n">sd</span> <span class="n">START_DATE</span><span class="p">,</span> <span class="o">--</span><span class="n">start_date</span> <span class="n">START_DATE</span>
+                        <span class="n">Start</span> <span class="n">year</span> <span class="n">to</span> <span class="n">compute</span> <span class="n">averages</span><span class="o">.</span> <span class="n">Default</span> <span class="mi">0038</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span>
+  <span class="o">-</span><span class="n">ed</span> <span class="n">END_DATE</span><span class="p">,</span> <span class="o">--</span><span class="n">end_date</span> <span class="n">END_DATE</span>
+                        <span class="n">End</span> <span class="n">year</span> <span class="n">to</span> <span class="n">compute</span> <span class="n">averages</span><span class="o">.</span> <span class="n">Default</span> <span class="mi">0059</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span>
+  <span class="o">-</span><span class="n">p</span> <span class="n">PROJ_CODE</span><span class="p">,</span> <span class="o">--</span><span class="n">proj_code</span> <span class="n">PROJ_CODE</span>
+                        <span class="n">Project</span> <span class="n">code</span><span class="o">.</span> <span class="n">Default</span> <span class="n">NCGD0011</span>
+  <span class="o">-</span><span class="n">ce</span> <span class="n">CONDA_ENV</span><span class="p">,</span> <span class="o">--</span><span class="n">conda_env</span> <span class="n">CONDA_ENV</span>
+                        <span class="n">Conda</span> <span class="n">env</span> <span class="n">to</span> <span class="n">be</span> <span class="n">used</span> <span class="k">for</span> <span class="n">running</span> <span class="n">the</span> <span class="n">scripts</span><span class="o">.</span> <span class="n">Default</span> <span class="n">dev2</span>
+  <span class="o">-</span><span class="n">cl</span> <span class="n">CLUSTER</span><span class="p">,</span> <span class="o">--</span><span class="n">cluster</span> <span class="n">CLUSTER</span>
+                        <span class="n">Name</span> <span class="n">of</span> <span class="n">the</span> <span class="n">cluster</span> <span class="n">to</span> <span class="n">run</span> <span class="n">the</span> <span class="n">scripts</span> <span class="n">via</span> <span class="n">batch</span> <span class="n">jobs</span><span class="o">.</span> <span class="n">Default</span> <span class="n">casper</span><span class="p">,</span> <span class="n">but</span> <span class="n">cheyenne</span> <span class="ow">is</span> <span class="n">also</span> <span class="n">supported</span><span class="o">.</span>
+  <span class="o">-</span><span class="n">debug</span>                <span class="n">Add</span> <span class="n">priting</span> <span class="n">statements</span> <span class="k">for</span> <span class="n">debugging</span> <span class="n">purposes</span>
+</pre></div>
+</div>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">create_cesm_diagnostic</span><span class="o">.</span><span class="n">py</span> <span class="n">path</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">caseroot</span> <span class="n">ctrl_zstar</span> <span class="o">--</span><span class="n">cimeroot</span> <span class="n">path</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">cimeroot</span> <span class="o">-</span><span class="n">sd</span> <span class="mi">0031</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span> <span class="o">-</span><span class="n">ed</span> <span class="mi">0061</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">31</span> <span class="o">-</span><span class="n">ce</span> <span class="n">dev2</span> <span class="o">-</span><span class="n">cl</span> <span class="n">casper</span>
+</pre></div>
+</div>
+</section>
+<section id="creating-diagnostics-for-multiple-simulations">
+<h2>Creating diagnostics for multiple simulations<a class="headerlink" href="#creating-diagnostics-for-multiple-simulations" title="Permalink to this headline">#</a></h2>
+<p><strong>TODO</strong></p>
+<p>The current approach is to create file <strong>diag_config.yml</strong> by hand. Please check file <a class="reference external" href="https://github.com/NCAR/mom6_solutions/blob/main/diag_config.yml">diag_config.yml</a> contained in this repository as an example.</p>
+</section>
+<section id="building-a-jupyter-book">
+<h2>Building a Jupyter Book<a class="headerlink" href="#building-a-jupyter-book" title="Permalink to this headline">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">jb</span> <span class="n">build</span> <span class="n">notebooks</span>
+</pre></div>
+</div>
 <section id="contributing">
-<h2>Contributing<a class="headerlink" href="#contributing" title="Permalink to this headline">#</a></h2>
+<h3>Contributing<a class="headerlink" href="#contributing" title="Permalink to this headline">#</a></h3>
 <p>Would you like to include a new diagnostic? If so, here clone this repository, create your own branch</p>
 <p>“git checkout -b name_of_your_branch”,</p>
 <p>then send us pull request.</p>
@@ -392,6 +470,7 @@ title="Print to PDF"
 <li class="toctree-l1"><a class="reference internal" href="equatorial.html">Equatorial plots</a></li>
 </ul>
 </div>
+</section>
 </section>
 </section>
 

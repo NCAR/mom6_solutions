@@ -465,10 +465,10 @@ title="Print to PDF"
 <h1>Potential Temperature and Salinity biases<a class="headerlink" href="#potential-temperature-and-salinity-biases" title="Permalink to this headline">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%capture</span> 
-<span class="c1"># comment above line to see details about the run(s) displayed</span>
-<span class="kn">from</span> <span class="nn">misc</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%%capture 
+# comment above line to see details about the run(s) displayed
+from misc import *
+%matplotlib inline
 </pre></div>
 </div>
 </div>
@@ -479,31 +479,31 @@ title="Print to PDF"
 <h3>Potential temperature<a class="headerlink" href="#potential-temperature" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%matplotlib inline
 
-<span class="n">reg_mom</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Global&#39;</span><span class="p">,</span><span class="s1">&#39;SouthernOcean&#39;</span><span class="p">,</span><span class="s1">&#39;PacificOcean&#39;</span><span class="p">,</span><span class="s1">&#39;IndianOcean&#39;</span><span class="p">,</span><span class="s1">&#39;AtlanticOcean&#39;</span><span class="p">,</span><span class="s1">&#39;Arctic&#39;</span><span class="p">,</span><span class="s1">&#39;LabSea&#39;</span><span class="p">]</span>
-<span class="n">reg_pop</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
-<span class="n">ds_pop</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="s1">&#39;/glade/scratch/gmarques/g210.GIAF_JRA.v13.gx1v7.01_temp_bias.nc&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="s1">&#39;0001-01-01&#39;</span><span class="p">,</span> 
-                                                                                                           <span class="n">end_date</span><span class="p">))</span>
-<span class="n">vmax</span><span class="o">=</span><span class="mi">2</span><span class="p">;</span> <span class="n">vmin</span><span class="o">=-</span><span class="n">vmax</span>
-<span class="k">for</span> <span class="n">m</span><span class="p">,</span><span class="n">p</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">reg_mom</span><span class="p">,</span><span class="n">reg_pop</span><span class="p">):</span>
-  <span class="k">for</span> <span class="n">path</span><span class="p">,</span> <span class="n">case</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ocn_path</span><span class="p">,</span> <span class="n">casename</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">casename</span><span class="p">))):</span>
-    <span class="n">ds_mom</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">path</span><span class="o">+</span><span class="n">case</span><span class="o">+</span><span class="s1">&#39;_temp_bias.nc&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="s1">&#39;0001-01-01&#39;</span><span class="p">,</span> <span class="n">end_date</span><span class="p">))</span>
-    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mf">4.5</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;, Potential Temperature bias [C], (</span><span class="si">{}</span><span class="s1"> - obs)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">label</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
-    <span class="n">splitscale</span> <span class="o">=</span>  <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="o">-</span><span class="mf">500.</span><span class="p">,</span> <span class="o">-</span><span class="mi">4000</span><span class="p">]</span>
-    <span class="n">dummy_mom</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_invalid</span><span class="p">(</span><span class="n">ds_mom</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">region</span><span class="o">=</span><span class="n">m</span><span class="p">)</span><span class="o">.</span><span class="n">temp_bias</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-    <span class="n">dummy_pop</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_invalid</span><span class="p">(</span><span class="n">ds_pop</span><span class="o">.</span><span class="n">__xarray_dataarray_variable__</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">region</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">))</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+reg_mom = [&#39;Global&#39;,&#39;SouthernOcean&#39;,&#39;PacificOcean&#39;,&#39;IndianOcean&#39;,&#39;AtlanticOcean&#39;,&#39;Arctic&#39;,&#39;LabSea&#39;]
+reg_pop = [0,1,2,3,6,10,8]
+ds_pop = xr.open_dataset(&#39;/glade/scratch/gmarques/g210.GIAF_JRA.v13.gx1v7.01_temp_bias.nc&#39;).sel(time=slice(&#39;0001-01-01&#39;, 
+                                                                                                           end_date))
+vmax=2; vmin=-vmax
+for m,p in zip(reg_mom,reg_pop):
+  for path, case, i in zip(ocn_path, casename, range(len(casename))):
+    ds_mom = xr.open_dataset(path+case+&#39;_thetao_drift.nc&#39;).sel(time=slice(&#39;0001-01-01&#39;, end_date))
+    fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(20,4.5), sharex=True)
+    plt.suptitle(str(m)+&#39;, Potential Temperature bias [C], ({} - obs)&#39;.format(label[i]), fontsize=14)
+    splitscale =  [0., -500., -4000]
+    dummy_mom = np.ma.masked_invalid(ds_mom.sel(region=m).thetao_drift.values)
+    dummy_pop = np.ma.masked_invalid(ds_pop.__xarray_dataarray_variable__.sel(region=str(p)).values)
 
-    <span class="n">dummy_pop</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_invalid</span><span class="p">(</span><span class="n">ds_pop</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">region</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">))</span><span class="o">.</span><span class="n">__xarray_dataarray_variable__</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+    dummy_pop = np.ma.masked_invalid(ds_pop.sel(region=str(p)).__xarray_dataarray_variable__.values)
 
-    <span class="n">ztplot</span><span class="p">(</span><span class="n">dummy_mom</span><span class="p">,</span> <span class="n">ds_mom</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">ds_mom</span><span class="o">.</span><span class="n">z_l</span><span class="o">.</span><span class="n">values</span><span class="o">*-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ignore</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">splitscale</span><span class="o">=</span><span class="n">splitscale</span><span class="p">,</span> 
-           <span class="n">contour</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">flat</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">label</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">extend</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">colormap</span><span class="o">=</span><span class="s1">&#39;dunnePM&#39;</span><span class="p">,</span> 
-           <span class="n">autocenter</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">tunits</span><span class="o">=</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">clim</span><span class="o">=</span><span class="p">(</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="p">))</span> 
-    <span class="n">ztplot</span><span class="p">(</span><span class="n">dummy_pop</span><span class="p">,</span> <span class="n">ds_pop</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="o">-</span><span class="n">ds_pop</span><span class="o">.</span><span class="n">z_l</span><span class="o">.</span><span class="n">values</span><span class="o">/</span><span class="mf">100.</span><span class="p">,</span> <span class="n">ignore</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">splitscale</span><span class="o">=</span><span class="n">splitscale</span><span class="p">,</span> 
-           <span class="n">contour</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">flat</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;POP&#39;</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">colormap</span><span class="o">=</span><span class="s1">&#39;dunnePM&#39;</span><span class="p">,</span> 
-           <span class="n">autocenter</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">tunits</span><span class="o">=</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">clim</span><span class="o">=</span><span class="p">(</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="p">))</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">top</span> <span class="o">=</span> <span class="mf">0.8</span><span class="p">)</span>
+    ztplot(dummy_mom, ds_mom.time.values, ds_mom.z_l.values*-1, ignore=np.nan, splitscale=splitscale, 
+           contour=True, axis=ax.flat[0] , title=label[i], extend=&#39;both&#39;, colormap=&#39;dunnePM&#39;, 
+           autocenter=True, tunits=&#39;Year&#39;, show=False, clim=(vmin, vmax)) 
+    ztplot(dummy_pop, ds_pop.time.values, -ds_pop.z_l.values/100., ignore=np.nan, splitscale=splitscale, 
+           contour=True, axis=ax.flat[1] , title=&#39;POP&#39;, extend=&#39;both&#39;, colormap=&#39;dunnePM&#39;, 
+           autocenter=True, tunits=&#39;Year&#39;, show=False, clim=(vmin, vmax))
+    plt.subplots_adjust(top = 0.8)
 </pre></div>
 </div>
 </div>
@@ -522,6 +522,20 @@ title="Print to PDF"
 <img alt="_images/ts_biases_4_11.png" src="_images/ts_biases_4_11.png" />
 <img alt="_images/ts_biases_4_12.png" src="_images/ts_biases_4_12.png" />
 <img alt="_images/ts_biases_4_13.png" src="_images/ts_biases_4_13.png" />
+<img alt="_images/ts_biases_4_14.png" src="_images/ts_biases_4_14.png" />
+<img alt="_images/ts_biases_4_15.png" src="_images/ts_biases_4_15.png" />
+<img alt="_images/ts_biases_4_16.png" src="_images/ts_biases_4_16.png" />
+<img alt="_images/ts_biases_4_17.png" src="_images/ts_biases_4_17.png" />
+<img alt="_images/ts_biases_4_18.png" src="_images/ts_biases_4_18.png" />
+<img alt="_images/ts_biases_4_19.png" src="_images/ts_biases_4_19.png" />
+<img alt="_images/ts_biases_4_20.png" src="_images/ts_biases_4_20.png" />
+<img alt="_images/ts_biases_4_21.png" src="_images/ts_biases_4_21.png" />
+<img alt="_images/ts_biases_4_22.png" src="_images/ts_biases_4_22.png" />
+<img alt="_images/ts_biases_4_23.png" src="_images/ts_biases_4_23.png" />
+<img alt="_images/ts_biases_4_24.png" src="_images/ts_biases_4_24.png" />
+<img alt="_images/ts_biases_4_25.png" src="_images/ts_biases_4_25.png" />
+<img alt="_images/ts_biases_4_26.png" src="_images/ts_biases_4_26.png" />
+<img alt="_images/ts_biases_4_27.png" src="_images/ts_biases_4_27.png" />
 </div>
 </div>
 </section>
@@ -529,29 +543,29 @@ title="Print to PDF"
 <h3>Salinity<a class="headerlink" href="#salinity" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds_pop</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="s1">&#39;/glade/scratch/gmarques/g210.GIAF_JRA.v13.gx1v7.01_salt_bias.nc&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="s1">&#39;0001-01-01&#39;</span><span class="p">,</span> 
-                                                                                                           <span class="n">end_date</span><span class="p">))</span>
-<span class="n">vmax</span><span class="o">=</span> <span class="mf">0.5</span>
-<span class="n">vmin</span><span class="o">=</span> <span class="o">-</span><span class="n">vmax</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ds_pop = xr.open_dataset(&#39;/glade/scratch/gmarques/g210.GIAF_JRA.v13.gx1v7.01_salt_bias.nc&#39;).sel(time=slice(&#39;0001-01-01&#39;, 
+                                                                                                           end_date))
+vmax= 0.5
+vmin= -vmax
 
-<span class="k">for</span> <span class="n">m</span><span class="p">,</span><span class="n">p</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">reg_mom</span><span class="p">,</span><span class="n">reg_pop</span><span class="p">):</span>
-  <span class="k">for</span> <span class="n">path</span><span class="p">,</span> <span class="n">case</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ocn_path</span><span class="p">,</span> <span class="n">casename</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">casename</span><span class="p">))):</span>
-    <span class="n">ds_mom</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">path</span><span class="o">+</span><span class="n">case</span><span class="o">+</span><span class="s1">&#39;_salt_bias.nc&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="s1">&#39;0001-01-01&#39;</span><span class="p">,</span> <span class="n">end_date</span><span class="p">))</span>
-    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mf">4.5</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;, Salinity bias [psu], (</span><span class="si">{}</span><span class="s1"> - obs)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">label</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
-    <span class="n">splitscale</span> <span class="o">=</span>  <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="o">-</span><span class="mf">500.</span><span class="p">,</span> <span class="o">-</span><span class="mi">4000</span><span class="p">]</span>
-    <span class="n">dummy_mom</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_invalid</span><span class="p">(</span><span class="n">ds_mom</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">region</span><span class="o">=</span><span class="n">m</span><span class="p">)</span><span class="o">.</span><span class="n">salt_bias</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-    <span class="n">dummy_pop</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_invalid</span><span class="p">(</span><span class="n">ds_pop</span><span class="o">.</span><span class="n">__xarray_dataarray_variable__</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">region</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">))</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+for m,p in zip(reg_mom,reg_pop):
+  for path, case, i in zip(ocn_path, casename, range(len(casename))):
+    ds_mom = xr.open_dataset(path+case+&#39;_so_drift.nc&#39;).sel(time=slice(&#39;0001-01-01&#39;, end_date))
+    fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(20,4.5), sharex=True)
+    plt.suptitle(str(m)+&#39;, Salinity bias [psu], ({} - obs)&#39;.format(label[i]), fontsize=14)
+    splitscale =  [0., -500., -4000]
+    dummy_mom = np.ma.masked_invalid(ds_mom.sel(region=m).so_drift.values)
+    dummy_pop = np.ma.masked_invalid(ds_pop.__xarray_dataarray_variable__.sel(region=str(p)).values)
 
-    <span class="n">dummy_pop</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_invalid</span><span class="p">(</span><span class="n">ds_pop</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">region</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">))</span><span class="o">.</span><span class="n">__xarray_dataarray_variable__</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+    dummy_pop = np.ma.masked_invalid(ds_pop.sel(region=str(p)).__xarray_dataarray_variable__.values)
 
-    <span class="n">ztplot</span><span class="p">(</span><span class="n">dummy_mom</span><span class="p">,</span> <span class="n">ds_mom</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">ds_mom</span><span class="o">.</span><span class="n">z_l</span><span class="o">.</span><span class="n">values</span><span class="o">*-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ignore</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">splitscale</span><span class="o">=</span><span class="n">splitscale</span><span class="p">,</span> 
-         <span class="n">contour</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">flat</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">label</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">extend</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">colormap</span><span class="o">=</span><span class="s1">&#39;dunnePM&#39;</span><span class="p">,</span> 
-         <span class="n">autocenter</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">tunits</span><span class="o">=</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">clim</span><span class="o">=</span><span class="p">(</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="p">))</span> 
-    <span class="n">ztplot</span><span class="p">(</span><span class="n">dummy_pop</span><span class="p">,</span> <span class="n">ds_pop</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="o">-</span><span class="n">ds_pop</span><span class="o">.</span><span class="n">z_l</span><span class="o">.</span><span class="n">values</span><span class="o">/</span><span class="mf">100.</span><span class="p">,</span> <span class="n">ignore</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">splitscale</span><span class="o">=</span><span class="n">splitscale</span><span class="p">,</span> 
-         <span class="n">contour</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">flat</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;POP&#39;</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">colormap</span><span class="o">=</span><span class="s1">&#39;dunnePM&#39;</span><span class="p">,</span> 
-         <span class="n">autocenter</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">tunits</span><span class="o">=</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">clim</span><span class="o">=</span><span class="p">(</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="p">))</span>  
-    <span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">top</span> <span class="o">=</span> <span class="mf">0.8</span><span class="p">)</span>
+    ztplot(dummy_mom, ds_mom.time.values, ds_mom.z_l.values*-1, ignore=np.nan, splitscale=splitscale, 
+         contour=True, axis=ax.flat[0] , title=label[i], extend=&#39;both&#39;, colormap=&#39;dunnePM&#39;, 
+         autocenter=True, tunits=&#39;Year&#39;, show=False, clim=(vmin, vmax)) 
+    ztplot(dummy_pop, ds_pop.time.values, -ds_pop.z_l.values/100., ignore=np.nan, splitscale=splitscale, 
+         contour=True, axis=ax.flat[1] , title=&#39;POP&#39;, extend=&#39;both&#39;, colormap=&#39;dunnePM&#39;, 
+         autocenter=True, tunits=&#39;Year&#39;, show=False, clim=(vmin, vmax))  
+    plt.subplots_adjust(top = 0.8)
 </pre></div>
 </div>
 </div>
@@ -570,6 +584,20 @@ title="Print to PDF"
 <img alt="_images/ts_biases_6_11.png" src="_images/ts_biases_6_11.png" />
 <img alt="_images/ts_biases_6_12.png" src="_images/ts_biases_6_12.png" />
 <img alt="_images/ts_biases_6_13.png" src="_images/ts_biases_6_13.png" />
+<img alt="_images/ts_biases_6_14.png" src="_images/ts_biases_6_14.png" />
+<img alt="_images/ts_biases_6_15.png" src="_images/ts_biases_6_15.png" />
+<img alt="_images/ts_biases_6_16.png" src="_images/ts_biases_6_16.png" />
+<img alt="_images/ts_biases_6_17.png" src="_images/ts_biases_6_17.png" />
+<img alt="_images/ts_biases_6_18.png" src="_images/ts_biases_6_18.png" />
+<img alt="_images/ts_biases_6_19.png" src="_images/ts_biases_6_19.png" />
+<img alt="_images/ts_biases_6_20.png" src="_images/ts_biases_6_20.png" />
+<img alt="_images/ts_biases_6_21.png" src="_images/ts_biases_6_21.png" />
+<img alt="_images/ts_biases_6_22.png" src="_images/ts_biases_6_22.png" />
+<img alt="_images/ts_biases_6_23.png" src="_images/ts_biases_6_23.png" />
+<img alt="_images/ts_biases_6_24.png" src="_images/ts_biases_6_24.png" />
+<img alt="_images/ts_biases_6_25.png" src="_images/ts_biases_6_25.png" />
+<img alt="_images/ts_biases_6_26.png" src="_images/ts_biases_6_26.png" />
+<img alt="_images/ts_biases_6_27.png" src="_images/ts_biases_6_27.png" />
 </div>
 </div>
 </section>
@@ -578,30 +606,30 @@ title="Print to PDF"
 <h2>T/S bias at selected vertical levels<a class="headerlink" href="#t-s-bias-at-selected-vertical-levels" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># load PHC2 data</span>
-<span class="n">phc_path</span> <span class="o">=</span> <span class="s1">&#39;/glade/p/cesm/omwg/obs_data/phc/&#39;</span>
-<span class="n">phc_temp_mom</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_mfdataset</span><span class="p">(</span><span class="n">phc_path</span><span class="o">+</span><span class="s1">&#39;PHC2_TEMP_tx0.66v1_34lev_ann_avg.nc&#39;</span><span class="p">,</span> 
-                             <span class="n">decode_coords</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">decode_times</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="n">phc_salt_mom</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_mfdataset</span><span class="p">(</span><span class="n">phc_path</span><span class="o">+</span><span class="s1">&#39;PHC2_SALT_tx0.66v1_34lev_ann_avg.nc&#39;</span><span class="p">,</span> 
-                             <span class="n">decode_coords</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">decode_times</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># load PHC2 data
+phc_path = &#39;/glade/p/cesm/omwg/obs_data/phc/&#39;
+phc_temp_mom = xr.open_mfdataset(phc_path+&#39;PHC2_TEMP_tx0.66v1_34lev_ann_avg.nc&#39;, 
+                             decode_coords=False, decode_times=False)
+phc_salt_mom = xr.open_mfdataset(phc_path+&#39;PHC2_SALT_tx0.66v1_34lev_ann_avg.nc&#39;, 
+                             decode_coords=False, decode_times=False)
 
-<span class="n">phc_temp_pop</span> <span class="o">=</span> <span class="n">pop_add_cyclic</span><span class="p">(</span><span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">phc_path</span><span class="o">+</span><span class="s1">&#39;PHC2_TEMP_gx1v7_60lev_ann_avg.nc&#39;</span><span class="p">,</span> 
-                             <span class="n">decode_coords</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">decode_times</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">&#39;Y&#39;</span><span class="p">:</span> <span class="s1">&#39;nlat&#39;</span><span class="p">,</span><span class="s1">&#39;TEMP&#39;</span><span class="p">:</span><span class="s1">&#39;thetao&#39;</span><span class="p">,</span>
-                    <span class="s1">&#39;X&#39;</span><span class="p">:</span><span class="s1">&#39;nlon&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">({</span><span class="s1">&#39;TLAT&#39;</span><span class="p">:</span> <span class="n">pop_grid</span><span class="o">.</span><span class="n">TLAT</span><span class="p">,</span> <span class="s1">&#39;TLONG&#39;</span><span class="p">:</span><span class="n">pop_grid</span><span class="o">.</span><span class="n">TLONG</span><span class="p">})</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;nlat&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;nlon&#39;</span><span class="p">))</span>
-<span class="n">phc_salt_pop</span> <span class="o">=</span> <span class="n">pop_add_cyclic</span><span class="p">(</span><span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">phc_path</span><span class="o">+</span><span class="s1">&#39;PHC2_SALT_gx1v7_60lev_ann_avg.nc&#39;</span><span class="p">,</span> 
-                             <span class="n">decode_coords</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">decode_times</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">&#39;Y&#39;</span><span class="p">:</span> <span class="s1">&#39;nlat&#39;</span><span class="p">,</span><span class="s1">&#39;SALT&#39;</span><span class="p">:</span><span class="s1">&#39;so&#39;</span><span class="p">,</span>
-                    <span class="s1">&#39;X&#39;</span><span class="p">:</span><span class="s1">&#39;nlon&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">({</span><span class="s1">&#39;TLAT&#39;</span><span class="p">:</span> <span class="n">pop_grid</span><span class="o">.</span><span class="n">TLAT</span><span class="p">,</span> <span class="s1">&#39;TLONG&#39;</span><span class="p">:</span><span class="n">pop_grid</span><span class="o">.</span><span class="n">TLONG</span><span class="p">})</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;nlat&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;nlon&#39;</span><span class="p">))</span>
+phc_temp_pop = pop_add_cyclic(xr.open_dataset(phc_path+&#39;PHC2_TEMP_gx1v7_60lev_ann_avg.nc&#39;, 
+                             decode_coords=False, decode_times=False).rename({&#39;Y&#39;: &#39;nlat&#39;,&#39;TEMP&#39;:&#39;thetao&#39;,
+                    &#39;X&#39;:&#39;nlon&#39;}).assign_coords({&#39;TLAT&#39;: pop_grid.TLAT, &#39;TLONG&#39;:pop_grid.TLONG}).drop(&#39;nlat&#39;).drop(&#39;nlon&#39;))
+phc_salt_pop = pop_add_cyclic(xr.open_dataset(phc_path+&#39;PHC2_SALT_gx1v7_60lev_ann_avg.nc&#39;, 
+                             decode_coords=False, decode_times=False).rename({&#39;Y&#39;: &#39;nlat&#39;,&#39;SALT&#39;:&#39;so&#39;,
+                    &#39;X&#39;:&#39;nlon&#39;}).assign_coords({&#39;TLAT&#39;: pop_grid.TLAT, &#39;TLONG&#39;:pop_grid.TLONG}).drop(&#39;nlat&#39;).drop(&#39;nlon&#39;))
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">find_nearest</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Find nearest value and return its indice&#39;&#39;&#39;</span>
-    <span class="n">array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
-    <span class="n">idx</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">array</span> <span class="o">-</span> <span class="n">value</span><span class="p">))</span><span class="o">.</span><span class="n">argmin</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">idx</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def find_nearest(array, value):
+    &#39;&#39;&#39;Find nearest value and return its indice&#39;&#39;&#39;
+    array = np.asarray(array)
+    idx = (np.abs(array - value)).argmin()
+    return idx
 </pre></div>
 </div>
 </div>
@@ -610,33 +638,33 @@ title="Print to PDF"
 <h3>Potential Temperature<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># change k indice to see bias at other depths</span>
-<span class="n">levels</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">25</span><span class="p">]</span>
-<span class="n">ds_pop_t</span> <span class="o">=</span> <span class="n">pop_add_cyclic</span><span class="p">(</span><span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="s1">&#39;/glade/scratch/gmarques/g210.GIAF_JRA.v13.gx1v7.01_thetao_time_mean.nc&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">&#39;yh&#39;</span><span class="p">:</span> <span class="s1">&#39;nlat&#39;</span><span class="p">,</span>
-                    <span class="s1">&#39;xh&#39;</span><span class="p">:</span><span class="s1">&#39;nlon&#39;</span><span class="p">,</span> <span class="s1">&#39;z_l&#39;</span><span class="p">:</span><span class="s1">&#39;z_t&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">({</span><span class="s1">&#39;TLAT&#39;</span><span class="p">:</span> <span class="n">pop_grid</span><span class="o">.</span><span class="n">TLAT</span><span class="p">,</span> <span class="s1">&#39;TLONG&#39;</span><span class="p">:</span><span class="n">pop_grid</span><span class="o">.</span><span class="n">TLONG</span><span class="p">})</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;nlat&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;nlon&#39;</span><span class="p">))</span>
-<span class="n">tlim</span><span class="o">=</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mf">7.5</span><span class="p">,</span><span class="mf">7.5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># change k indice to see bias at other depths
+levels=[0,1,2,5,10,15,20,25]
+ds_pop_t = pop_add_cyclic(xr.open_dataset(&#39;/glade/scratch/gmarques/g210.GIAF_JRA.v13.gx1v7.01_thetao_time_mean.nc&#39;).rename({&#39;yh&#39;: &#39;nlat&#39;,
+                    &#39;xh&#39;:&#39;nlon&#39;, &#39;z_l&#39;:&#39;z_t&#39;}).assign_coords({&#39;TLAT&#39;: pop_grid.TLAT, &#39;TLONG&#39;:pop_grid.TLONG}).drop(&#39;nlat&#39;).drop(&#39;nlon&#39;))
+tlim=[5,7.5,7.5,5,5,5]
 
-<span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">t</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">levels</span><span class="p">,</span><span class="n">tlim</span><span class="p">):</span>
-  <span class="k">for</span> <span class="n">path</span><span class="p">,</span> <span class="n">case</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ocn_path</span><span class="p">,</span> <span class="n">casename</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">casename</span><span class="p">))):</span>
-    <span class="n">ds_mom_t</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">path</span><span class="o">+</span><span class="n">case</span><span class="o">+</span><span class="s1">&#39;_thetao_time_mean.nc&#39;</span><span class="p">)</span>
-    <span class="n">kpop</span> <span class="o">=</span>  <span class="n">find_nearest</span><span class="p">(</span><span class="n">phc_salt_pop</span><span class="o">.</span><span class="n">depth</span><span class="o">.</span><span class="n">values</span><span class="p">,</span><span class="n">phc_temp_mom</span><span class="o">.</span><span class="n">depth</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> 
-    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
-    <span class="n">ax1</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-    <span class="n">temp_mom</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_invalid</span><span class="p">(</span><span class="n">ds_mom_t</span><span class="o">.</span><span class="n">thetao</span><span class="p">[</span><span class="n">k</span><span class="p">,:]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-    <span class="n">temp_mom_obs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_invalid</span><span class="p">(</span><span class="n">phc_temp_mom</span><span class="p">[</span><span class="s1">&#39;TEMP&#39;</span><span class="p">][</span><span class="n">k</span><span class="p">,:]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-    <span class="n">temp_pop</span> <span class="o">=</span> <span class="n">ds_pop_t</span><span class="o">.</span><span class="n">thetao</span><span class="p">[</span><span class="n">kpop</span><span class="p">,:]</span>
-    <span class="n">temp_pop_obs</span> <span class="o">=</span> <span class="n">phc_temp_pop</span><span class="o">.</span><span class="n">thetao</span><span class="p">[</span><span class="n">kpop</span><span class="p">,:]</span>
-    <span class="n">pop_diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_invalid</span><span class="p">((</span><span class="n">temp_pop</span><span class="o">-</span><span class="n">temp_pop_obs</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+for k,t in zip(levels,tlim):
+  for path, case, i in zip(ocn_path, casename, range(len(casename))):
+    ds_mom_t = xr.open_dataset(path+case+&#39;_thetao_time_mean.nc&#39;)
+    kpop =  find_nearest(phc_salt_pop.depth.values,phc_temp_mom.depth[k].values) 
+    fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(20,5))
+    ax1 = ax.flatten()
+    temp_mom = np.ma.masked_invalid(ds_mom_t.thetao[k,:].values)
+    temp_mom_obs = np.ma.masked_invalid(phc_temp_mom[&#39;TEMP&#39;][k,:].values)
+    temp_pop = ds_pop_t.thetao[kpop,:]
+    temp_pop_obs = phc_temp_pop.thetao[kpop,:]
+    pop_diff = np.ma.masked_invalid((temp_pop-temp_pop_obs).values)
   
-    <span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Temperature bias [C] at level </span><span class="si">{}</span><span class="s1"> or depth = </span><span class="si">{}</span><span class="s1"> m (</span><span class="si">{}</span><span class="s1">), </span><span class="si">{}</span><span class="s1"> m (pop)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> 
-               <span class="n">phc_temp_mom</span><span class="o">.</span><span class="n">depth</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">label</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">phc_temp_pop</span><span class="o">.</span><span class="n">depth</span><span class="p">[</span><span class="n">kpop</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">))</span>
-    <span class="n">xyplot</span><span class="p">(</span><span class="n">temp_mom</span><span class="o">-</span><span class="n">temp_mom_obs</span><span class="p">,</span> <span class="n">grd</span><span class="o">.</span><span class="n">geolon</span><span class="p">,</span> <span class="n">grd</span><span class="o">.</span><span class="n">geolat</span><span class="p">,</span> <span class="n">grd</span><span class="o">.</span><span class="n">area_t</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">label</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39; - obs&#39;</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="n">ax1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> 
-         <span class="n">clim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="n">t</span><span class="p">,</span><span class="n">t</span><span class="p">),</span> <span class="n">nbins</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">colormap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">bwr</span><span class="p">,</span> <span class="n">centerlabels</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">xyplot</span><span class="p">(</span><span class="n">pop_diff</span><span class="p">,</span> <span class="n">pop_grid_o</span><span class="o">.</span><span class="n">TLONG</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">pop_grid_o</span><span class="o">.</span><span class="n">TLAT</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">pop_grid_o</span><span class="o">.</span><span class="n">TAREA</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
-         <span class="n">title</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="s1">&#39;pop - obs&#39;</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="n">ax1</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> 
-         <span class="n">clim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="n">t</span><span class="p">,</span><span class="n">t</span><span class="p">),</span> <span class="n">nbins</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">colormap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">bwr</span><span class="p">,</span> <span class="n">centerlabels</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">ax1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">220</span><span class="p">,</span><span class="mi">140</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">top</span> <span class="o">=</span> <span class="mf">0.8</span><span class="p">)</span>
+    plt.suptitle(&#39;Temperature bias [C] at level {} or depth = {} m ({}), {} m (pop)&#39;.format(k, 
+               phc_temp_mom.depth[k].values, label[i], phc_temp_pop.depth[kpop].values))
+    xyplot(temp_mom-temp_mom_obs, grd.geolon, grd.geolat, grd.area_t, title=str(label[i]+&#39; - obs&#39;), axis=ax1[0], 
+         clim=(-t,t), nbins=100, colormap=plt.cm.bwr, centerlabels=True)
+    xyplot(pop_diff, pop_grid_o.TLONG.values, pop_grid_o.TLAT.values, pop_grid_o.TAREA.values,
+         title=str(&#39;pop - obs&#39;), axis=ax1[1], 
+         clim=(-t,t), nbins=100, colormap=plt.cm.bwr, centerlabels=True)
+    ax1[1].set_xlim(-220,140)
+    plt.subplots_adjust(top = 0.8)
 </pre></div>
 </div>
 </div>
@@ -653,6 +681,18 @@ title="Print to PDF"
 <img alt="_images/ts_biases_11_9.png" src="_images/ts_biases_11_9.png" />
 <img alt="_images/ts_biases_11_10.png" src="_images/ts_biases_11_10.png" />
 <img alt="_images/ts_biases_11_11.png" src="_images/ts_biases_11_11.png" />
+<img alt="_images/ts_biases_11_12.png" src="_images/ts_biases_11_12.png" />
+<img alt="_images/ts_biases_11_13.png" src="_images/ts_biases_11_13.png" />
+<img alt="_images/ts_biases_11_14.png" src="_images/ts_biases_11_14.png" />
+<img alt="_images/ts_biases_11_15.png" src="_images/ts_biases_11_15.png" />
+<img alt="_images/ts_biases_11_16.png" src="_images/ts_biases_11_16.png" />
+<img alt="_images/ts_biases_11_17.png" src="_images/ts_biases_11_17.png" />
+<img alt="_images/ts_biases_11_18.png" src="_images/ts_biases_11_18.png" />
+<img alt="_images/ts_biases_11_19.png" src="_images/ts_biases_11_19.png" />
+<img alt="_images/ts_biases_11_20.png" src="_images/ts_biases_11_20.png" />
+<img alt="_images/ts_biases_11_21.png" src="_images/ts_biases_11_21.png" />
+<img alt="_images/ts_biases_11_22.png" src="_images/ts_biases_11_22.png" />
+<img alt="_images/ts_biases_11_23.png" src="_images/ts_biases_11_23.png" />
 </div>
 </div>
 </section>
@@ -660,33 +700,33 @@ title="Print to PDF"
 <h3>Salinity<a class="headerlink" href="#id2" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># change k indice to see bias at other depths</span>
-<span class="n">levels</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">25</span><span class="p">]</span>
-<span class="n">ds_pop_s</span> <span class="o">=</span> <span class="n">pop_add_cyclic</span><span class="p">(</span><span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="s1">&#39;/glade/scratch/gmarques/g210.GIAF_JRA.v13.gx1v7.01_so_time_mean.nc&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">&#39;yh&#39;</span><span class="p">:</span> <span class="s1">&#39;nlat&#39;</span><span class="p">,</span>
-                    <span class="s1">&#39;xh&#39;</span><span class="p">:</span><span class="s1">&#39;nlon&#39;</span><span class="p">,</span> <span class="s1">&#39;z_l&#39;</span><span class="p">:</span><span class="s1">&#39;z_t&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">({</span><span class="s1">&#39;TLAT&#39;</span><span class="p">:</span> <span class="n">pop_grid</span><span class="o">.</span><span class="n">TLAT</span><span class="p">,</span> <span class="s1">&#39;TLONG&#39;</span><span class="p">:</span><span class="n">pop_grid</span><span class="o">.</span><span class="n">TLONG</span><span class="p">})</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;nlat&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;nlon&#39;</span><span class="p">))</span>
-<span class="n">slim</span><span class="o">=</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mf">1.5</span><span class="p">,</span><span class="mf">1.5</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># change k indice to see bias at other depths
+levels=[0,5,10,15,20,25]
+ds_pop_s = pop_add_cyclic(xr.open_dataset(&#39;/glade/scratch/gmarques/g210.GIAF_JRA.v13.gx1v7.01_so_time_mean.nc&#39;).rename({&#39;yh&#39;: &#39;nlat&#39;,
+                    &#39;xh&#39;:&#39;nlon&#39;, &#39;z_l&#39;:&#39;z_t&#39;}).assign_coords({&#39;TLAT&#39;: pop_grid.TLAT, &#39;TLONG&#39;:pop_grid.TLONG}).drop(&#39;nlat&#39;).drop(&#39;nlon&#39;))
+slim=[5,3,1.5,1.5,1,1]
 
-<span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">s</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">levels</span><span class="p">,</span><span class="n">slim</span><span class="p">):</span>
-  <span class="k">for</span> <span class="n">path</span><span class="p">,</span> <span class="n">case</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ocn_path</span><span class="p">,</span> <span class="n">casename</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">casename</span><span class="p">))):</span>
-    <span class="n">ds_mom_s</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">path</span><span class="o">+</span><span class="n">case</span><span class="o">+</span><span class="s1">&#39;_so_time_mean.nc&#39;</span><span class="p">)</span>
-    <span class="n">kpop</span> <span class="o">=</span>  <span class="n">find_nearest</span><span class="p">(</span><span class="n">phc_salt_pop</span><span class="o">.</span><span class="n">depth</span><span class="o">.</span><span class="n">values</span><span class="p">,</span><span class="n">phc_temp_mom</span><span class="o">.</span><span class="n">depth</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>  
-    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mf">5.</span><span class="p">))</span>
-    <span class="n">ax1</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-    <span class="n">salt_mom</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_invalid</span><span class="p">(</span><span class="n">ds_mom_s</span><span class="o">.</span><span class="n">so</span><span class="p">[</span><span class="n">k</span><span class="p">,:]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-    <span class="n">salt_mom_obs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_invalid</span><span class="p">(</span><span class="n">phc_salt_mom</span><span class="p">[</span><span class="s1">&#39;SALT&#39;</span><span class="p">][</span><span class="n">k</span><span class="p">,:]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-    <span class="n">salt_pop</span> <span class="o">=</span> <span class="n">ds_pop_s</span><span class="o">.</span><span class="n">so</span><span class="p">[</span><span class="n">kpop</span><span class="p">,:]</span>
-    <span class="n">salt_pop_obs</span> <span class="o">=</span> <span class="n">phc_salt_pop</span><span class="o">.</span><span class="n">so</span><span class="p">[</span><span class="n">kpop</span><span class="p">,:]</span>
-    <span class="n">pop_diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_invalid</span><span class="p">((</span><span class="n">salt_pop</span><span class="o">-</span><span class="n">salt_pop_obs</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+for k,s in zip(levels,slim):
+  for path, case, i in zip(ocn_path, casename, range(len(casename))):
+    ds_mom_s = xr.open_dataset(path+case+&#39;_so_time_mean.nc&#39;)
+    kpop =  find_nearest(phc_salt_pop.depth.values,phc_temp_mom.depth[k].values)  
+    fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(20,5.))
+    ax1 = ax.flatten()
+    salt_mom = np.ma.masked_invalid(ds_mom_s.so[k,:].values)
+    salt_mom_obs = np.ma.masked_invalid(phc_salt_mom[&#39;SALT&#39;][k,:].values)
+    salt_pop = ds_pop_s.so[kpop,:]
+    salt_pop_obs = phc_salt_pop.so[kpop,:]
+    pop_diff = np.ma.masked_invalid((salt_pop-salt_pop_obs).values)
 
-    <span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Salinity bias [psu] at level </span><span class="si">{}</span><span class="s1"> or depth = </span><span class="si">{}</span><span class="s1"> m (</span><span class="si">{}</span><span class="s1">), </span><span class="si">{}</span><span class="s1"> m (pop)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> 
-               <span class="n">phc_salt_mom</span><span class="o">.</span><span class="n">depth</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">label</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">phc_salt_pop</span><span class="o">.</span><span class="n">depth</span><span class="p">[</span><span class="n">kpop</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">))</span>
-    <span class="n">xyplot</span><span class="p">(</span><span class="n">salt_mom</span><span class="o">-</span><span class="n">salt_mom_obs</span><span class="p">,</span> <span class="n">grd</span><span class="o">.</span><span class="n">geolon</span><span class="p">,</span> <span class="n">grd</span><span class="o">.</span><span class="n">geolat</span><span class="p">,</span> <span class="n">grd</span><span class="o">.</span><span class="n">area_t</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">label</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39; - obs&#39;</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="n">ax1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> 
-         <span class="n">clim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="n">s</span><span class="p">,</span><span class="n">s</span><span class="p">),</span> <span class="n">nbins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">colormap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">bwr</span><span class="p">,</span> <span class="n">centerlabels</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">xyplot</span><span class="p">(</span><span class="n">pop_diff</span><span class="p">,</span> <span class="n">pop_grid_o</span><span class="o">.</span><span class="n">TLONG</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">pop_grid_o</span><span class="o">.</span><span class="n">TLAT</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">pop_grid_o</span><span class="o">.</span><span class="n">TAREA</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> 
-         <span class="n">title</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="s1">&#39;pop - obs&#39;</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="n">ax1</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> 
-         <span class="n">clim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="n">s</span><span class="p">,</span><span class="n">s</span><span class="p">),</span> <span class="n">nbins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">colormap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">bwr</span><span class="p">,</span> <span class="n">centerlabels</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">ax1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">220</span><span class="p">,</span><span class="mi">140</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">top</span> <span class="o">=</span> <span class="mf">0.8</span><span class="p">)</span>
+    plt.suptitle(&#39;Salinity bias [psu] at level {} or depth = {} m ({}), {} m (pop)&#39;.format(k, 
+               phc_salt_mom.depth[k].values, label[i], phc_salt_pop.depth[kpop].values))
+    xyplot(salt_mom-salt_mom_obs, grd.geolon, grd.geolat, grd.area_t, title=str(label[i]+&#39; - obs&#39;), axis=ax1[0], 
+         clim=(-s,s), nbins=50, colormap=plt.cm.bwr, centerlabels=True)
+    xyplot(pop_diff, pop_grid_o.TLONG.values, pop_grid_o.TLAT.values, pop_grid_o.TAREA.values, 
+         title=str(&#39;pop - obs&#39;), axis=ax1[1], 
+         clim=(-s,s), nbins=50, colormap=plt.cm.bwr, centerlabels=True)
+    ax1[1].set_xlim(-220,140)
+    plt.subplots_adjust(top = 0.8)
 </pre></div>
 </div>
 </div>
@@ -703,6 +743,18 @@ title="Print to PDF"
 <img alt="_images/ts_biases_13_9.png" src="_images/ts_biases_13_9.png" />
 <img alt="_images/ts_biases_13_10.png" src="_images/ts_biases_13_10.png" />
 <img alt="_images/ts_biases_13_11.png" src="_images/ts_biases_13_11.png" />
+<img alt="_images/ts_biases_13_12.png" src="_images/ts_biases_13_12.png" />
+<img alt="_images/ts_biases_13_13.png" src="_images/ts_biases_13_13.png" />
+<img alt="_images/ts_biases_13_14.png" src="_images/ts_biases_13_14.png" />
+<img alt="_images/ts_biases_13_15.png" src="_images/ts_biases_13_15.png" />
+<img alt="_images/ts_biases_13_16.png" src="_images/ts_biases_13_16.png" />
+<img alt="_images/ts_biases_13_17.png" src="_images/ts_biases_13_17.png" />
+<img alt="_images/ts_biases_13_18.png" src="_images/ts_biases_13_18.png" />
+<img alt="_images/ts_biases_13_19.png" src="_images/ts_biases_13_19.png" />
+<img alt="_images/ts_biases_13_20.png" src="_images/ts_biases_13_20.png" />
+<img alt="_images/ts_biases_13_21.png" src="_images/ts_biases_13_21.png" />
+<img alt="_images/ts_biases_13_22.png" src="_images/ts_biases_13_22.png" />
+<img alt="_images/ts_biases_13_23.png" src="_images/ts_biases_13_23.png" />
 </div>
 </div>
 </section>

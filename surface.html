@@ -417,10 +417,10 @@ title="Print to PDF"
 <h1>2D Surface Fields<a class="headerlink" href="#d-surface-fields" title="Permalink to this headline">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%capture</span> 
-<span class="c1"># comment above line to see details about the run(s) displayed</span>
-<span class="kn">from</span> <span class="nn">misc</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%%capture 
+# comment above line to see details about the run(s) displayed
+from misc import *
+%matplotlib inline
 </pre></div>
 </div>
 </div>
@@ -429,23 +429,23 @@ title="Print to PDF"
 <h2>Mixed layer depth<a class="headerlink" href="#mixed-layer-depth" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">filepath</span> <span class="o">=</span> <span class="s1">&#39;/glade/work/gmarques/cesm/datasets/MLD/deBoyer/deBoyer_MLD_remapped_to_tx06v1.nc&#39;</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1"> Reading climatology from: &#39;</span><span class="p">,</span> <span class="n">filepath</span><span class="p">)</span>
-<span class="n">mld_obs</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
-<span class="n">months</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
-<span class="n">obs_JFM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_invalid</span><span class="p">(</span><span class="n">mld_obs</span><span class="o">.</span><span class="n">mld</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">months</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-<span class="n">months</span> <span class="o">=</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
-<span class="n">obs_JAS</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_invalid</span><span class="p">(</span><span class="n">mld_obs</span><span class="o">.</span><span class="n">mld</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">months</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-<span class="n">obs_winter</span> <span class="o">=</span> <span class="n">obs_JAS</span><span class="o">.</span><span class="n">copy</span><span class="p">();</span> <span class="n">obs_summer</span> <span class="o">=</span> <span class="n">obs_JAS</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span> <span class="n">grd</span><span class="o">.</span><span class="n">geolat</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.</span> <span class="p">)</span><span class="o">.</span><span class="n">argmin</span><span class="p">()</span>
-<span class="n">obs_winter</span><span class="p">[</span><span class="n">j</span><span class="p">::,:]</span> <span class="o">=</span> <span class="n">obs_JFM</span><span class="p">[</span><span class="n">j</span><span class="p">::,:]</span>
-<span class="n">obs_summer</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">j</span><span class="p">,:]</span> <span class="o">=</span> <span class="n">obs_JFM</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">j</span><span class="p">,:]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>filepath = &#39;/glade/work/gmarques/cesm/datasets/MLD/deBoyer/deBoyer_MLD_remapped_to_tx06v1.nc&#39;
+print(&#39;\n Reading climatology from: &#39;, filepath)
+mld_obs = xr.open_dataset(filepath)
+months = [0,1,2]
+obs_JFM = np.ma.masked_invalid(mld_obs.mld.isel(time=months).mean(&#39;time&#39;).values)
+months = [6,7,8]
+obs_JAS = np.ma.masked_invalid(mld_obs.mld.isel(time=months).mean(&#39;time&#39;).values)
+obs_winter = obs_JAS.copy(); obs_summer = obs_JAS.copy()
+j = np.abs( grd.geolat[:,0] - 0. ).argmin()
+obs_winter[j::,:] = obs_JFM[j::,:]
+obs_summer[0:j,:] = obs_JFM[0:j,:]
 
-<span class="n">bbox_props</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">boxstyle</span><span class="o">=</span><span class="s2">&quot;round&quot;</span><span class="p">,</span> <span class="n">fc</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">ec</span><span class="o">=</span><span class="s2">&quot;0.5&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">add_labels</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">nh</span><span class="o">=</span><span class="s1">&#39;JFM&#39;</span><span class="p">,</span> <span class="n">sh</span><span class="o">=</span><span class="s1">&#39;JAS&#39;</span><span class="p">):</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">grd</span><span class="o">.</span><span class="n">geolon</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">grd</span><span class="o">.</span><span class="n">geolon</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;k--&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="n">nh</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">bbox</span><span class="o">=</span><span class="n">bbox_props</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="o">-</span><span class="mi">7</span><span class="p">,</span> <span class="n">sh</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">bbox</span><span class="o">=</span><span class="n">bbox_props</span><span class="p">)</span>
+bbox_props = dict(boxstyle=&quot;round&quot;, fc=&quot;w&quot;, ec=&quot;0.5&quot;, alpha=0.9)
+def add_labels(ax, nh=&#39;JFM&#39;, sh=&#39;JAS&#39;):
+    ax.plot([grd.geolon[0,0], grd.geolon[0,-1]], [0,0], &#39;k--&#39;, lw=0.5)
+    ax.text(25, 7, nh, ha=&quot;center&quot;, va=&quot;center&quot;, size=12, bbox=bbox_props)
+    ax.text(25, -7, sh, ha=&quot;center&quot;, va=&quot;center&quot;, size=12, bbox=bbox_props)
 </pre></div>
 </div>
 </div>
@@ -457,67 +457,71 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%matplotlib inline
 
 
-<span class="k">for</span> <span class="n">path</span><span class="p">,</span> <span class="n">case</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ocn_path</span><span class="p">,</span> <span class="n">casename</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">casename</span><span class="p">))):</span>
+for path, case, i in zip(ocn_path, casename, range(len(casename))):
     
-  <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">path</span><span class="o">+</span><span class="n">case</span><span class="o">+</span><span class="s1">&#39;_MLD_winter.nc&#39;</span><span class="p">)</span>
+  ds = xr.open_dataset(path+case+&#39;_MLD_winter.nc&#39;)
 
-  <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mf">5.5</span><span class="p">),</span> 
-                       <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-  <span class="n">ax1</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-  <span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Mean Winter MLD, JFM(NH), JAS(SH)&#39;</span><span class="p">)</span>
-  <span class="c1"># model</span>
-  <span class="n">control</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_invalid</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">MLD_winter</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-  <span class="n">xyplot</span><span class="p">(</span><span class="n">control</span><span class="p">,</span> <span class="n">grd</span><span class="o">.</span><span class="n">geolon</span><span class="p">,</span> <span class="n">grd</span><span class="o">.</span><span class="n">geolat</span><span class="p">,</span> <span class="n">grd</span><span class="o">.</span><span class="n">area_t</span><span class="p">,</span> 
-       <span class="n">title</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">label</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=</span><span class="n">ax1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> 
-       <span class="n">clim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1200</span><span class="p">),</span> <span class="n">nbins</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">colormap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">nipy_spectral</span><span class="p">,</span>
-       <span class="n">extend</span><span class="o">=</span><span class="s1">&#39;neither&#39;</span><span class="p">)</span>
-  <span class="n">add_labels</span><span class="p">(</span><span class="n">ax1</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-  <span class="c1"># obs</span>
-  <span class="n">xyplot</span><span class="p">(</span><span class="n">obs_winter</span><span class="p">,</span> <span class="n">grd</span><span class="o">.</span><span class="n">geolon</span><span class="p">,</span> <span class="n">grd</span><span class="o">.</span><span class="n">geolat</span><span class="p">,</span> <span class="n">grd</span><span class="o">.</span><span class="n">area_t</span><span class="p">,</span> 
-       <span class="n">title</span><span class="o">=</span><span class="s1">&#39;deBoyer&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">ax1</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> 
-       <span class="n">clim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1200</span><span class="p">),</span> <span class="n">nbins</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">colormap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">nipy_spectral</span><span class="p">,</span> 
-       <span class="n">extend</span><span class="o">=</span><span class="s1">&#39;neither&#39;</span><span class="p">)</span>
-  <span class="n">add_labels</span><span class="p">(</span><span class="n">ax1</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+  fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(20,5.5), 
+                       sharex=True, sharey=True)
+  ax1 = ax.flatten()
+  plt.suptitle(&#39;Mean Winter MLD, JFM(NH), JAS(SH)&#39;)
+  # model
+  control = np.ma.masked_invalid(ds.MLD_winter.values)
+  xyplot(control, grd.geolon, grd.geolat, grd.area_t, 
+       title=str(label[i]), axis=ax1[0], 
+       clim=(0,1200), nbins=100, colormap=plt.cm.nipy_spectral,
+       extend=&#39;neither&#39;)
+  add_labels(ax1[0])
+  # obs
+  xyplot(obs_winter, grd.geolon, grd.geolat, grd.area_t, 
+       title=&#39;deBoyer&#39;, axis=ax1[1], 
+       clim=(0,1200), nbins=100, colormap=plt.cm.nipy_spectral, 
+       extend=&#39;neither&#39;)
+  add_labels(ax1[1])
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <img alt="_images/surface_4_0.png" src="_images/surface_4_0.png" />
 <img alt="_images/surface_4_1.png" src="_images/surface_4_1.png" />
+<img alt="_images/surface_4_2.png" src="_images/surface_4_2.png" />
+<img alt="_images/surface_4_3.png" src="_images/surface_4_3.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">path</span><span class="p">,</span> <span class="n">case</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ocn_path</span><span class="p">,</span> <span class="n">casename</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">casename</span><span class="p">))):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>for path, case, i in zip(ocn_path, casename, range(len(casename))):
     
-  <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">path</span><span class="o">+</span><span class="n">case</span><span class="o">+</span><span class="s1">&#39;_MLD_summer.nc&#39;</span><span class="p">)</span>
+  ds = xr.open_dataset(path+case+&#39;_MLD_summer.nc&#39;)
 
-  <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mf">5.5</span><span class="p">),</span> 
-                       <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-  <span class="n">ax1</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-  <span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Mean Summer MLD, JFM(SH), JAS(NH)&#39;</span><span class="p">)</span>
-  <span class="c1"># model</span>
-  <span class="n">control</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_invalid</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">MLD_summer</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-  <span class="n">xyplot</span><span class="p">(</span><span class="n">control</span><span class="p">,</span> <span class="n">grd</span><span class="o">.</span><span class="n">geolon</span><span class="p">,</span> <span class="n">grd</span><span class="o">.</span><span class="n">geolat</span><span class="p">,</span> <span class="n">grd</span><span class="o">.</span><span class="n">area_t</span><span class="p">,</span> 
-       <span class="n">title</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">label</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=</span><span class="n">ax1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> 
-       <span class="n">clim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">200</span><span class="p">),</span> <span class="n">nbins</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">colormap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">nipy_spectral</span><span class="p">,</span>
-       <span class="n">extend</span><span class="o">=</span><span class="s1">&#39;neither&#39;</span><span class="p">)</span>
-  <span class="n">add_labels</span><span class="p">(</span><span class="n">ax1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sh</span><span class="o">=</span><span class="s1">&#39;JFM&#39;</span><span class="p">,</span> <span class="n">nh</span><span class="o">=</span><span class="s1">&#39;JAS&#39;</span><span class="p">)</span>
-  <span class="c1"># obs</span>
-  <span class="n">xyplot</span><span class="p">(</span><span class="n">obs_summer</span><span class="p">,</span> <span class="n">grd</span><span class="o">.</span><span class="n">geolon</span><span class="p">,</span> <span class="n">grd</span><span class="o">.</span><span class="n">geolat</span><span class="p">,</span> <span class="n">grd</span><span class="o">.</span><span class="n">area_t</span><span class="p">,</span> 
-       <span class="n">title</span><span class="o">=</span><span class="s1">&#39;deBoyer&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">ax1</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> 
-       <span class="n">clim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">200</span><span class="p">),</span> <span class="n">nbins</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">colormap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">nipy_spectral</span><span class="p">,</span> 
-       <span class="n">extend</span><span class="o">=</span><span class="s1">&#39;neither&#39;</span><span class="p">)</span>
-  <span class="n">add_labels</span><span class="p">(</span><span class="n">ax1</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">sh</span><span class="o">=</span><span class="s1">&#39;JFM&#39;</span><span class="p">,</span> <span class="n">nh</span><span class="o">=</span><span class="s1">&#39;JAS&#39;</span><span class="p">)</span>
+  fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(20,5.5), 
+                       sharex=True, sharey=True)
+  ax1 = ax.flatten()
+  plt.suptitle(&#39;Mean Summer MLD, JFM(SH), JAS(NH)&#39;)
+  # model
+  control = np.ma.masked_invalid(ds.MLD_summer.values)
+  xyplot(control, grd.geolon, grd.geolat, grd.area_t, 
+       title=str(label[i]), axis=ax1[0], 
+       clim=(0,200), nbins=100, colormap=plt.cm.nipy_spectral,
+       extend=&#39;neither&#39;)
+  add_labels(ax1[0], sh=&#39;JFM&#39;, nh=&#39;JAS&#39;)
+  # obs
+  xyplot(obs_summer, grd.geolon, grd.geolat, grd.area_t, 
+       title=&#39;deBoyer&#39;, axis=ax1[1], 
+       clim=(0,200), nbins=100, colormap=plt.cm.nipy_spectral, 
+       extend=&#39;neither&#39;)
+  add_labels(ax1[1], sh=&#39;JFM&#39;, nh=&#39;JAS&#39;)
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <img alt="_images/surface_5_0.png" src="_images/surface_5_0.png" />
 <img alt="_images/surface_5_1.png" src="_images/surface_5_1.png" />
+<img alt="_images/surface_5_2.png" src="_images/surface_5_2.png" />
+<img alt="_images/surface_5_3.png" src="_images/surface_5_3.png" />
 </div>
 </div>
 </section>
@@ -525,34 +529,36 @@ title="Print to PDF"
 <h2>Boundary layer depth<a class="headerlink" href="#boundary-layer-depth" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">path</span><span class="p">,</span> <span class="n">case</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ocn_path</span><span class="p">,</span> <span class="n">casename</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">casename</span><span class="p">))):</span>
-  <span class="n">ds1</span> <span class="o">=</span>  <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">path</span><span class="o">+</span><span class="n">case</span><span class="o">+</span><span class="s1">&#39;_BLD_summer.nc&#39;</span><span class="p">)</span>
-  <span class="n">ds2</span> <span class="o">=</span>  <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">path</span><span class="o">+</span><span class="n">case</span><span class="o">+</span><span class="s1">&#39;_BLD_winter.nc&#39;</span><span class="p">)</span>
-  <span class="n">summer</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_invalid</span><span class="p">(</span><span class="n">ds1</span><span class="o">.</span><span class="n">BLD_summer</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-  <span class="n">winter</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_invalid</span><span class="p">(</span><span class="n">ds2</span><span class="o">.</span><span class="n">BLD_winter</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>for path, case, i in zip(ocn_path, casename, range(len(casename))):
+  ds1 =  xr.open_dataset(path+case+&#39;_BLD_summer.nc&#39;)
+  ds2 =  xr.open_dataset(path+case+&#39;_BLD_winter.nc&#39;)
+  summer = np.ma.masked_invalid(ds1.BLD_summer.values)
+  winter = np.ma.masked_invalid(ds2.BLD_winter.values)
 
-  <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mf">5.5</span><span class="p">),</span> 
-                       <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-  <span class="n">ax1</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-  <span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Mean BLDs in summer and winter for case </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">label</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
-  <span class="c1"># summer</span>
-  <span class="n">xyplot</span><span class="p">(</span><span class="n">summer</span><span class="p">,</span> <span class="n">grd</span><span class="o">.</span><span class="n">geolon</span><span class="p">,</span> <span class="n">grd</span><span class="o">.</span><span class="n">geolat</span><span class="p">,</span> <span class="n">grd</span><span class="o">.</span><span class="n">area_t</span><span class="p">,</span> 
-       <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Summer, JFM(SH), JAS(NH)&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">ax1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> 
-       <span class="n">clim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">200</span><span class="p">),</span> <span class="n">nbins</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">colormap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">nipy_spectral</span><span class="p">,</span>
-       <span class="n">extend</span><span class="o">=</span><span class="s1">&#39;neither&#39;</span><span class="p">)</span>
-  <span class="n">add_labels</span><span class="p">(</span><span class="n">ax1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sh</span><span class="o">=</span><span class="s1">&#39;JFM&#39;</span><span class="p">,</span> <span class="n">nh</span><span class="o">=</span><span class="s1">&#39;JAS&#39;</span><span class="p">)</span>
-  <span class="c1"># obs</span>
-  <span class="n">xyplot</span><span class="p">(</span><span class="n">winter</span><span class="p">,</span> <span class="n">grd</span><span class="o">.</span><span class="n">geolon</span><span class="p">,</span> <span class="n">grd</span><span class="o">.</span><span class="n">geolat</span><span class="p">,</span> <span class="n">grd</span><span class="o">.</span><span class="n">area_t</span><span class="p">,</span> 
-       <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Winter, JAS(SH), JFM(NH)&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">ax1</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> 
-       <span class="n">clim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1200</span><span class="p">),</span> <span class="n">nbins</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">colormap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">nipy_spectral</span><span class="p">,</span> 
-       <span class="n">extend</span><span class="o">=</span><span class="s1">&#39;neither&#39;</span><span class="p">)</span>
-  <span class="n">add_labels</span><span class="p">(</span><span class="n">ax1</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+  fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(20,5.5), 
+                       sharex=True, sharey=True)
+  ax1 = ax.flatten()
+  plt.suptitle(&#39;Mean BLDs in summer and winter for case {}&#39;.format(label[i]))
+  # summer
+  xyplot(summer, grd.geolon, grd.geolat, grd.area_t, 
+       title=&quot;Summer, JFM(SH), JAS(NH)&quot;, axis=ax1[0], 
+       clim=(0,200), nbins=100, colormap=plt.cm.nipy_spectral,
+       extend=&#39;neither&#39;)
+  add_labels(ax1[0], sh=&#39;JFM&#39;, nh=&#39;JAS&#39;)
+  # obs
+  xyplot(winter, grd.geolon, grd.geolat, grd.area_t, 
+       title=&#39;Winter, JAS(SH), JFM(NH)&#39;, axis=ax1[1], 
+       clim=(0,1200), nbins=100, colormap=plt.cm.nipy_spectral, 
+       extend=&#39;neither&#39;)
+  add_labels(ax1[1])
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <img alt="_images/surface_7_0.png" src="_images/surface_7_0.png" />
 <img alt="_images/surface_7_1.png" src="_images/surface_7_1.png" />
+<img alt="_images/surface_7_2.png" src="_images/surface_7_2.png" />
+<img alt="_images/surface_7_3.png" src="_images/surface_7_3.png" />
 </div>
 </div>
 </section>

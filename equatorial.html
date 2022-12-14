@@ -416,56 +416,56 @@ title="Print to PDF"
 <h1>Equatorial plots<a class="headerlink" href="#equatorial-plots" title="Permalink to this headline">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%capture</span> 
-<span class="c1"># comment above line to see details about the run(s) displayed</span>
-<span class="kn">from</span> <span class="nn">misc</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%%capture 
+# comment above line to see details about the run(s) displayed
+from misc import *
+%matplotlib inline
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># load WOA18 data</span>
-<span class="n">obs_path</span> <span class="o">=</span> <span class="s1">&#39;/glade/u/home/gmarques/Notebooks/CESM_MOM6/WOA18_remapping/&#39;</span>
-<span class="n">obs_temp</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">obs_path</span><span class="o">+</span><span class="s1">&#39;WOA18_TEMP_tx0.66v1_34lev_ann_avg.nc&#39;</span><span class="p">,</span> <span class="n">decode_times</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="n">obs_salt</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">obs_path</span><span class="o">+</span><span class="s1">&#39;WOA18_SALT_tx0.66v1_34lev_ann_avg.nc&#39;</span><span class="p">,</span> <span class="n">decode_times</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="c1"># get theta and salt and rename coordinates to be the same as the model&#39;s</span>
-<span class="n">thetao_obs</span> <span class="o">=</span> <span class="n">obs_temp</span><span class="o">.</span><span class="n">theta0</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">&#39;z_l&#39;</span><span class="p">:</span> <span class="s1">&#39;zl&#39;</span><span class="p">});</span>
-<span class="n">salt_obs</span> <span class="o">=</span> <span class="n">obs_salt</span><span class="o">.</span><span class="n">s_an</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">&#39;z_l&#39;</span><span class="p">:</span> <span class="s1">&#39;zl&#39;</span><span class="p">});</span>
-<span class="n">salt_obs</span><span class="p">[</span><span class="s1">&#39;yh&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">grd</span><span class="o">.</span><span class="n">yh</span>
-<span class="n">thetao_obs</span><span class="p">[</span><span class="s1">&#39;yh&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">grd</span><span class="o">.</span><span class="n">yh</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># load WOA18 data
+obs_path = &#39;/glade/u/home/gmarques/Notebooks/CESM_MOM6/WOA18_remapping/&#39;
+obs_temp = xr.open_dataset(obs_path+&#39;WOA18_TEMP_tx0.66v1_34lev_ann_avg.nc&#39;, decode_times=False)
+obs_salt = xr.open_dataset(obs_path+&#39;WOA18_SALT_tx0.66v1_34lev_ann_avg.nc&#39;, decode_times=False)
+# get theta and salt and rename coordinates to be the same as the model&#39;s
+thetao_obs = obs_temp.theta0.rename({&#39;z_l&#39;: &#39;zl&#39;});
+salt_obs = obs_salt.s_an.rename({&#39;z_l&#39;: &#39;zl&#39;});
+salt_obs[&#39;yh&#39;] = grd.yh
+thetao_obs[&#39;yh&#39;] = grd.yh
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot_comparison</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">obs</span><span class="p">,</span> <span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="p">,</span> <span class="n">diff</span><span class="p">,</span> <span class="n">cname</span><span class="p">):</span>
-  <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                       <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                       <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">14</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def plot_comparison(model, var, obs, vmin, vmax, diff, cname):
+  fig, ax = plt.subplots(nrows=3, ncols=1,
+                       sharex=True,sharey=True,
+                       figsize=(12,14))
 
-  <span class="n">ax1</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+  ax1 = ax.flatten()
 
-  <span class="n">model</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span>
-                     <span class="n">y</span><span class="o">=</span><span class="s2">&quot;zl&quot;</span><span class="p">,</span><span class="n">vmin</span><span class="o">=</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">vmax</span><span class="p">,</span>
-                     <span class="n">yincrease</span><span class="o">=</span><span class="kc">False</span><span class="p">);</span>
+  model[var].plot(ax=ax1[0], ylim=(500,0),
+                     y=&quot;zl&quot;,vmin=vmin, vmax=vmax,
+                     yincrease=False);
 
-  <span class="n">obs</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">yh</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> 
-               <span class="n">method</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-                                      <span class="n">y</span><span class="o">=</span><span class="s2">&quot;zl&quot;</span><span class="p">,</span><span class="n">vmin</span><span class="o">=</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">vmax</span><span class="p">,</span>
-                                      <span class="n">yincrease</span><span class="o">=</span><span class="kc">False</span><span class="p">);</span>
+  obs.sel(yh=0., 
+               method=&quot;nearest&quot;).plot(ax=ax1[1], ylim=(500, 0),
+                                      y=&quot;zl&quot;,vmin=vmin, vmax=vmax,
+                                      yincrease=False);
 
-  <span class="p">(</span><span class="n">model</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">-</span> <span class="n">obs</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">yh</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> 
-               <span class="n">method</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-                                      <span class="n">y</span><span class="o">=</span><span class="s2">&quot;zl&quot;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;bwr&quot;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-</span><span class="n">diff</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">diff</span><span class="p">,</span> 
-                                      <span class="n">yincrease</span><span class="o">=</span><span class="kc">False</span><span class="p">);</span>
+  (model[var] - obs.sel(yh=0., 
+               method=&quot;nearest&quot;)).plot(ax=ax1[2], ylim=(500, 0),
+                                      y=&quot;zl&quot;, cmap=&quot;bwr&quot;, vmin=-diff, vmax=diff, 
+                                      yincrease=False);
 
-  <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Model, casename = </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cname</span><span class="p">));</span> <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
-  <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Obs (WOA18)&#39;</span><span class="p">);</span> <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
-  <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Model - Obs&#39;</span><span class="p">);</span> <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Longitude&#39;</span><span class="p">);</span>
-  <span class="k">return</span>
+  ax[0].set_title(&#39;Model, casename = {}&#39;.format(cname)); ax[0].set_xlabel(&#39;&#39;)
+  ax[1].set_title(&#39;Obs (WOA18)&#39;); ax[1].set_xlabel(&#39;&#39;)
+  ax[2].set_title(&#39;Model - Obs&#39;); ax[2].set_xlabel(&#39;Longitude&#39;);
+  return
 </pre></div>
 </div>
 </div>
@@ -474,15 +474,17 @@ title="Print to PDF"
 <h2>Potential temperature<a class="headerlink" href="#potential-temperature" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">path</span><span class="p">,</span> <span class="n">case</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ocn_path</span><span class="p">,</span> <span class="n">casename</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">casename</span><span class="p">))):</span>
-  <span class="n">ds_temp</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">ocn_path</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">casename</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;_temp_eq.nc&#39;</span><span class="p">)</span>
-  <span class="n">plot_comparison</span><span class="p">(</span><span class="n">ds_temp</span><span class="p">,</span><span class="s1">&#39;temp_eq&#39;</span><span class="p">,</span><span class="n">thetao_obs</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="n">label</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>for path, case, i in zip(ocn_path, casename, range(len(casename))):
+  ds_temp = xr.open_dataset(ocn_path[i]+casename[i]+&#39;_temp_eq.nc&#39;)
+  plot_comparison(ds_temp,&#39;temp_eq&#39;,thetao_obs,10,30,5,label[i])
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <img alt="_images/equatorial_5_0.png" src="_images/equatorial_5_0.png" />
 <img alt="_images/equatorial_5_1.png" src="_images/equatorial_5_1.png" />
+<img alt="_images/equatorial_5_2.png" src="_images/equatorial_5_2.png" />
+<img alt="_images/equatorial_5_3.png" src="_images/equatorial_5_3.png" />
 </div>
 </div>
 </section>
@@ -490,15 +492,17 @@ title="Print to PDF"
 <h2>Salinity<a class="headerlink" href="#salinity" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">path</span><span class="p">,</span> <span class="n">case</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ocn_path</span><span class="p">,</span> <span class="n">casename</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">casename</span><span class="p">))):</span>
-  <span class="n">ds_salt</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">ocn_path</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">casename</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;_salt_eq.nc&#39;</span><span class="p">)</span>
-  <span class="n">plot_comparison</span><span class="p">(</span><span class="n">ds_salt</span><span class="p">,</span><span class="s1">&#39;salt_eq&#39;</span><span class="p">,</span><span class="n">salt_obs</span><span class="p">,</span><span class="mi">33</span><span class="p">,</span><span class="mi">37</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">label</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>for path, case, i in zip(ocn_path, casename, range(len(casename))):
+  ds_salt = xr.open_dataset(ocn_path[i]+casename[i]+&#39;_salt_eq.nc&#39;)
+  plot_comparison(ds_salt,&#39;salt_eq&#39;,salt_obs,33,37,1,label[i])
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <img alt="_images/equatorial_7_0.png" src="_images/equatorial_7_0.png" />
 <img alt="_images/equatorial_7_1.png" src="_images/equatorial_7_1.png" />
+<img alt="_images/equatorial_7_2.png" src="_images/equatorial_7_2.png" />
+<img alt="_images/equatorial_7_3.png" src="_images/equatorial_7_3.png" />
 </div>
 </div>
 </section>

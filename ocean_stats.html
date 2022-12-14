@@ -53,7 +53,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="2D Surface Fields" href="surface.html" />
-    <link rel="prev" title="Welcome to the ocean diagnostics" href="intro.html" />
+    <link rel="prev" title="Welcome to the OMWG diagnostics" href="intro.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -587,21 +587,21 @@ title="Print to PDF"
 <h1>Ocean Stats<a class="headerlink" href="#ocean-stats" title="Permalink to this headline">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%capture</span> 
-<span class="c1"># comment above line to see details about the run(s) displayed</span>
-<span class="kn">from</span> <span class="nn">misc</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Last update:&quot;</span><span class="p">,</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">())</span>
-<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%%capture 
+# comment above line to see details about the run(s) displayed
+from misc import *
+print(&quot;Last update:&quot;, date.today())
+%matplotlib inline
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Make the graphs a bit prettier, and bigger</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;ggplot&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;font.size&#39;</span><span class="p">:</span> <span class="mi">15</span><span class="p">})</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Make the graphs a bit prettier, and bigger
+plt.style.use(&#39;ggplot&#39;)
+plt.rcParams[&#39;figure.figsize&#39;] = (15, 5)
+plt.rcParams.update({&#39;font.size&#39;: 15})
 </pre></div>
 </div>
 </div>
@@ -610,15 +610,15 @@ title="Print to PDF"
 <h2>Globally-averaged T &amp; S<a class="headerlink" href="#globally-averaged-t-s" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">casename</span><span class="p">,</span><span class="n">label</span><span class="p">,</span> <span class="n">ocn_path</span><span class="p">):</span>
-  <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">p</span><span class="o">+</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_mon_ave_global_means.nc&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
-  <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;thetaoga&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">l</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig, ax = plt.subplots()
+for c, l, p in zip(casename,label, ocn_path):
+  ds = xr.open_dataset(p+&#39;{}_mon_ave_global_means.nc&#39;.format(c))
+  ds[&#39;thetaoga&#39;].plot(ax=ax, label=l, lw=3)
     
-<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">thetaoga</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;long_name&#39;</span><span class="p">])</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">thetaoga</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">])</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Year&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+ax.set_title(ds.thetaoga.attrs[&#39;long_name&#39;])
+ax.set_ylabel(ds.thetaoga.attrs[&#39;units&#39;])
+ax.set_xlabel(&#39;Year&#39;)
+ax.legend();
 </pre></div>
 </div>
 </div>
@@ -628,15 +628,15 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">casename</span><span class="p">,</span><span class="n">label</span><span class="p">,</span> <span class="n">ocn_path</span><span class="p">):</span>
-  <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">p</span><span class="o">+</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_mon_ave_global_means.nc&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
-  <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;soga&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">l</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig, ax = plt.subplots()
+for c, l, p in zip(casename,label, ocn_path):
+  ds = xr.open_dataset(p+&#39;{}_mon_ave_global_means.nc&#39;.format(c))
+  ds[&#39;soga&#39;].plot(ax=ax, label=l, lw=3)
     
-<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">soga</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;long_name&#39;</span><span class="p">])</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">soga</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">])</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Year&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+ax.set_title(ds.soga.attrs[&#39;long_name&#39;])
+ax.set_ylabel(ds.soga.attrs[&#39;units&#39;])
+ax.set_xlabel(&#39;Year&#39;)
+ax.legend();
 </pre></div>
 </div>
 </div>
@@ -646,13 +646,13 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ocean_stats</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">casename</span><span class="p">,</span><span class="n">label</span><span class="p">,</span> <span class="n">ocn_path</span><span class="p">):</span>
-  <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">p</span><span class="o">+</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_ocean.stats.nc&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
-  <span class="n">stats_monthly</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s2">&quot;1M&quot;</span><span class="p">,</span> 
-                               <span class="n">closed</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span>
-                               <span class="n">keep_attrs</span><span class="o">=</span><span class="s1">&#39;True&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-  <span class="n">ocean_stats</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stats_monthly</span><span class="p">)</span> 
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ocean_stats = []
+for c, l, p in zip(casename,label, ocn_path):
+  ds = xr.open_dataset(p+&#39;{}_ocean.stats.nc&#39;.format(c))
+  stats_monthly = ds.resample(time=&quot;1M&quot;, 
+                               closed=&#39;left&#39;,
+                               keep_attrs=&#39;True&#39;).mean(&#39;time&#39;, keep_attrs=True)
+  ocean_stats.append(stats_monthly) 
 </pre></div>
 </div>
 </div>
@@ -662,16 +662,16 @@ title="Print to PDF"
 <h2>Truncations<a class="headerlink" href="#truncations" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">l</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">label</span><span class="p">)),</span> <span class="n">label</span><span class="p">):</span>
-  <span class="n">ocean_stats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">Truncs</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">l</span><span class="p">,</span><span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">);</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig, ax = plt.subplots()
+for i,l in zip(range(len(label)), label):
+  ocean_stats[i].Truncs.plot(ax=ax,label=l,lw=3);
     
-<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+ax.legend()
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x2baa24427370&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x2b8a07208280&gt;
 </pre></div>
 </div>
 <img alt="_images/ocean_stats_8_1.png" src="_images/ocean_stats_8_1.png" />
@@ -682,11 +682,11 @@ title="Print to PDF"
 <h2>Maximum finite-volume CFL<a class="headerlink" href="#maximum-finite-volume-cfl" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">l</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">label</span><span class="p">)),</span> <span class="n">label</span><span class="p">):</span>
-  <span class="n">ocean_stats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">max_CFL_trans</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">l</span><span class="p">,</span><span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">);</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig, ax = plt.subplots()
+for i,l in zip(range(len(label)), label):
+  ocean_stats[i].max_CFL_trans.plot(ax=ax,label=l,lw=3);
     
-<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+ax.legend();
 </pre></div>
 </div>
 </div>
@@ -699,11 +699,11 @@ title="Print to PDF"
 <h2>Maximum finite-difference CFL<a class="headerlink" href="#maximum-finite-difference-cfl" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">l</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">label</span><span class="p">)),</span> <span class="n">label</span><span class="p">):</span>
-  <span class="n">ocean_stats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">max_CFL_lin</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">l</span><span class="p">,</span><span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">);</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig, ax = plt.subplots()
+for i,l in zip(range(len(label)), label):
+  ocean_stats[i].max_CFL_lin.plot(ax=ax,label=l,lw=3);
     
-<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+ax.legend();
 </pre></div>
 </div>
 </div>
@@ -716,11 +716,11 @@ title="Print to PDF"
 <h2>Maximum CFL<a class="headerlink" href="#maximum-cfl" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">l</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">label</span><span class="p">)),</span> <span class="n">label</span><span class="p">):</span>
-  <span class="n">ocean_stats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">MaximumCFL</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">l</span><span class="p">,</span><span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">);</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig, ax = plt.subplots()
+for i,l in zip(range(len(label)), label):
+  ocean_stats[i].MaximumCFL.plot(ax=ax,label=l,lw=3);
     
-<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+ax.legend();
 </pre></div>
 </div>
 </div>
@@ -733,11 +733,11 @@ title="Print to PDF"
 <h2>Energy/Mass<a class="headerlink" href="#energy-mass" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">l</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">label</span><span class="p">)),</span> <span class="n">label</span><span class="p">):</span>
-  <span class="n">ocean_stats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">EnergyMass</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">l</span><span class="p">,</span><span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">);</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig, ax = plt.subplots()
+for i,l in zip(range(len(label)), label):
+  ocean_stats[i].EnergyMass.plot(ax=ax,label=l,lw=3);
     
-<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+ax.legend();
 </pre></div>
 </div>
 </div>
@@ -750,11 +750,11 @@ title="Print to PDF"
 <h2>Mean Sea Level<a class="headerlink" href="#mean-sea-level" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">l</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">label</span><span class="p">)),</span> <span class="n">label</span><span class="p">):</span>
-  <span class="n">ocean_stats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">MeanSeaLevel</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">l</span><span class="p">,</span><span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">);</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig, ax = plt.subplots()
+for i,l in zip(range(len(label)), label):
+  ocean_stats[i].MeanSeaLevel.plot.line(ax=ax,label=l,lw=3);
     
-<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+ax.legend();
 </pre></div>
 </div>
 </div>
@@ -767,11 +767,11 @@ title="Print to PDF"
 <h2>Total Mass<a class="headerlink" href="#total-mass" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">l</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">label</span><span class="p">)),</span> <span class="n">label</span><span class="p">):</span>
-  <span class="n">ocean_stats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">TotalMass</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">l</span><span class="p">,</span><span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">);</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig, ax = plt.subplots()
+for i,l in zip(range(len(label)), label):
+  ocean_stats[i].TotalMass.plot(ax=ax,label=l,lw=3);
     
-<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+ax.legend();
 </pre></div>
 </div>
 </div>
@@ -784,11 +784,11 @@ title="Print to PDF"
 <h2>Mean Salinity<a class="headerlink" href="#mean-salinity" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">l</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">label</span><span class="p">)),</span> <span class="n">label</span><span class="p">):</span>
-  <span class="n">ocean_stats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">MeanSalin</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">l</span><span class="p">,</span><span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">);</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig, ax = plt.subplots()
+for i,l in zip(range(len(label)), label):
+  ocean_stats[i].MeanSalin.plot(ax=ax,label=l,lw=3);
     
-<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+ax.legend();
 </pre></div>
 </div>
 </div>
@@ -801,11 +801,11 @@ title="Print to PDF"
 <h2>Mean Temperature<a class="headerlink" href="#mean-temperature" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">l</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">label</span><span class="p">)),</span> <span class="n">label</span><span class="p">):</span>
-  <span class="n">ocean_stats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">MeanTemp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">l</span><span class="p">,</span><span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">);</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig, ax = plt.subplots()
+for i,l in zip(range(len(label)), label):
+  ocean_stats[i].MeanTemp.plot(ax=ax,label=l,lw=3);
     
-<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+ax.legend();
 </pre></div>
 </div>
 </div>
@@ -818,11 +818,11 @@ title="Print to PDF"
 <h2>Total Energy<a class="headerlink" href="#total-energy" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">l</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">label</span><span class="p">)),</span> <span class="n">label</span><span class="p">):</span>
-  <span class="n">ocean_stats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">En</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">l</span><span class="p">,</span><span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">);</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig, ax = plt.subplots()
+for i,l in zip(range(len(label)), label):
+  ocean_stats[i].En.plot(ax=ax,label=l,lw=3);
     
-<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+ax.legend();
 </pre></div>
 </div>
 </div>
@@ -835,12 +835,12 @@ title="Print to PDF"
 <h2>Available Potential Energy<a class="headerlink" href="#available-potential-energy" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">l</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">label</span><span class="p">)),</span> <span class="n">label</span><span class="p">):</span>
-  <span class="n">ocean_stats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">APE</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                      <span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">l</span><span class="p">,</span><span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">);</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig, ax = plt.subplots()
+for i,l in zip(range(len(label)), label):
+  ocean_stats[i].APE.sum(axis=1,
+                      keep_attrs=True).plot(ax=ax,label=l,lw=3);
     
-<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+ax.legend();
 </pre></div>
 </div>
 </div>
@@ -853,11 +853,11 @@ title="Print to PDF"
 <h2>Total Salt<a class="headerlink" href="#total-salt" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">l</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">label</span><span class="p">)),</span> <span class="n">label</span><span class="p">):</span>
-  <span class="n">ocean_stats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">Salt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">l</span><span class="p">,</span><span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">);</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig, ax = plt.subplots()
+for i,l in zip(range(len(label)), label):
+  ocean_stats[i].Salt.plot(ax=ax,label=l,lw=3);
     
-<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+ax.legend();
 </pre></div>
 </div>
 </div>
@@ -870,11 +870,11 @@ title="Print to PDF"
 <h2>Total Salt Change between Entries<a class="headerlink" href="#total-salt-change-between-entries" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">l</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">label</span><span class="p">)),</span> <span class="n">label</span><span class="p">):</span>
-  <span class="n">ocean_stats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">Salt_chg</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">l</span><span class="p">,</span><span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">);</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig, ax = plt.subplots()
+for i,l in zip(range(len(label)), label):
+  ocean_stats[i].Salt_chg.plot(ax=ax,label=l,lw=3);
     
-<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+ax.legend();
 </pre></div>
 </div>
 </div>
@@ -887,11 +887,11 @@ title="Print to PDF"
 <h2>Anomalous Total Salt Change<a class="headerlink" href="#anomalous-total-salt-change" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">l</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">label</span><span class="p">)),</span> <span class="n">label</span><span class="p">):</span>
-  <span class="n">ocean_stats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">Salt_anom</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">l</span><span class="p">,</span><span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">);</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig, ax = plt.subplots()
+for i,l in zip(range(len(label)), label):
+  ocean_stats[i].Salt_anom.plot(ax=ax,label=l,lw=3);
     
-<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+ax.legend();
 </pre></div>
 </div>
 </div>
@@ -904,11 +904,11 @@ title="Print to PDF"
 <h2>Total Heat<a class="headerlink" href="#total-heat" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">l</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">label</span><span class="p">)),</span> <span class="n">label</span><span class="p">):</span>
-  <span class="n">ocean_stats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">Heat</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">l</span><span class="p">,</span><span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">);</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig, ax = plt.subplots()
+for i,l in zip(range(len(label)), label):
+  ocean_stats[i].Heat.plot(ax=ax,label=l,lw=3);
     
-<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+ax.legend();
 </pre></div>
 </div>
 </div>
@@ -921,11 +921,11 @@ title="Print to PDF"
 <h2>Total Heat Change between Entries<a class="headerlink" href="#total-heat-change-between-entries" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">l</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">label</span><span class="p">)),</span> <span class="n">label</span><span class="p">):</span>
-  <span class="n">ocean_stats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">Heat_chg</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">l</span><span class="p">,</span><span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">);</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig, ax = plt.subplots()
+for i,l in zip(range(len(label)), label):
+  ocean_stats[i].Heat_chg.plot(ax=ax,label=l,lw=3);
     
-<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+ax.legend();
 </pre></div>
 </div>
 </div>
@@ -938,11 +938,11 @@ title="Print to PDF"
 <h2>Anomalous Total Heat Change<a class="headerlink" href="#anomalous-total-heat-change" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">l</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">label</span><span class="p">)),</span> <span class="n">label</span><span class="p">):</span>
-  <span class="n">ocean_stats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">Heat_anom</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">l</span><span class="p">,</span><span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">);</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig, ax = plt.subplots()
+for i,l in zip(range(len(label)), label):
+  ocean_stats[i].Heat_anom.plot(ax=ax,label=l,lw=3);
     
-<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+ax.legend();
 </pre></div>
 </div>
 </div>
@@ -955,11 +955,11 @@ title="Print to PDF"
 <h2>Age<a class="headerlink" href="#age" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">l</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">label</span><span class="p">)),</span> <span class="n">label</span><span class="p">):</span>
-  <span class="n">ocean_stats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">age</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">l</span><span class="p">,</span><span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">);</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig, ax = plt.subplots()
+for i,l in zip(range(len(label)), label):
+  ocean_stats[i].age.plot(ax=ax,label=l,lw=3);
     
-<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+ax.legend();
 </pre></div>
 </div>
 </div>
@@ -1001,7 +1001,7 @@ title="Print to PDF"
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Welcome to the ocean diagnostics</p>
+            <p class="prev-next-title">Welcome to the OMWG diagnostics</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="surface.html" title="next page">
